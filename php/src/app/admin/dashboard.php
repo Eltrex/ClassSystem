@@ -22,10 +22,41 @@ if($_SESSION["permission"] != "admin") {
     <p>Willkommen <?php echo $_SESSION["username"]; ?></p>
     <hr>
     <br>
-    <h3>Schüler hinzufügen:</h3>
-    <div class="add">
-        <a href="addUser.php">Hinzufügen</a>
+    <h3>Aufgaben hochladen:</h3>
+    <div class="upload">
+        <form action="uploadTasks.php" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <button type="submit" name="submit">Upload</button>
+        </form>
     </div>
+    <br>
+    <hr>
+    <br>
+    <h3>Aufgaben:</h3>
+    <div>
+        <hr>
+        <?php
+            $files = scandir('../users/#Task');
+            for ($i = 2; $i < count($files); $i++) {
+                echo '<a href="../users/#Task' . '/' . $files[$i] . '">' . $files[$i] . '</a>';
+                    echo '<form action="deletefile.php" method="post">';
+                    echo '<input type="hidden" name="file" value="' . $files[$i] . '">';
+                    echo '<button type="submit" name="submit">Löschen</button>';
+                    echo '</form>';
+                    echo '<hr>';
+                }
+
+                if(count($files) == 2) {
+                    echo 'Keine Dateien hochgeladen!';
+                }
+        ?>
+        <hr>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <h3>Schüler hinzufügen:</h3>
+    <a href="addUser.php">Hinzufügen</a>
     <br>
     <hr>
     <br>

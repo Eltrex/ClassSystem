@@ -4,6 +4,12 @@ if(!isset($_SESSION["username"])) {
     header("Location: ../../index.php");
     exit();
 }
+if($_SESSION["permission"] != "admin") {
+    header("Location: ../../index.php");
+    exit();
+}
+
+// Upload a file to the server
 if(isset($_POST["submit"])) {
     $file = $_FILES["file"];
     $fileName = $file["name"];
@@ -20,17 +26,16 @@ if(isset($_POST["submit"])) {
         if($fileError === 0) {
             if($fileSize < 1000000) {
                 $fileNameNew = $fileName;
-                $fileDestination = '../users/' . $_SESSION["username"] . '/' . $fileNameNew;
+                $fileDestination = '../users/' . '#Task' . '/' . $fileNameNew;
                 move_uploaded_file($fileTmpName, $fileDestination);
                 header("Location: dashboard.php?upload=success");
             } else {
-                echo "Die Datei ist zu groß!";
+                header("Location: dashboard.php?upload=errorSize");
             }
         } else {
-            echo "Es ist ein Fehler aufgetreten!";
+           header("Location: dashboard.php?upload=error");
         }
     } else {
-        echo "Du kannst keine Dateien dieses Typs hochladen!";
+        header("Location: dashboard.php?upload=errorType");
     }
 }
-?>

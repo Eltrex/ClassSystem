@@ -29,12 +29,39 @@ if($_SESSION["permission"] == "admin") {
                 <button type="submit" name="submit">Upload</button>
             </form>
         </div>
-
+        <br>
+        <hr>
+        <br>
+        <h3>Aufgaben:</h3>
+        // Show the files from the users/Task folder and add a button to download them and if it is a .pdf file add a button to open it
+        <div>
+            <hr>
+            <?php
+                $files = scandir('../users/#Task');
+                for ($i = 2; $i < count($files); $i++) {
+                    echo '<a href="users/#Task/' . $files[$i] . '">' . $files[$i] . '</a>';
+                    echo '<form action="download.php" method="post">';
+                    echo '<input type="hidden" name="file" value="' . $files[$i] . '">';
+                    echo '<button type="submit" name="submit">Download</button>';
+                    echo '</form>';
+                    if(substr($files[$i], -4) == ".pdf") {
+                        echo '<form action="open.php" method="post">';
+                        echo '<input type="hidden" name="file" value="' . $files[$i] . '">';
+                        echo '<button type="submit" name="submit">Öffnen</button>';
+                        echo '</form>';
+                    }
+                    echo '<hr>';
+                }
+            ?>
+            <hr>
+        </div>
+        <br>
+        <hr>
+        <br>
         <div>
             <h3>Bereits hochgeladene Dateien:</h3>
             <hr>
             <?php
-                // List all the files in the user's folder and add a button to delete them
                 $files = scandir('../users/' . $_SESSION["username"]);
                 for ($i = 2; $i < count($files); $i++) {
                     echo '<a href="users/' . $_SESSION["username"] . '/' . $files[$i] . '">' . $files[$i] . '</a>';

@@ -1,4 +1,14 @@
 <?php
+session_start();
+if(!isset($_SESSION["username"])) {
+    header("Location: ../../index.php");
+    exit();
+}
+if($_SESSION["permission"] != 'admin') {
+    header("Location: ../../index.php");
+    exit();
+}
+
 if(isset($_POST['add'])) {
     $firstname = $_POST['name'];
     $lastname = $_POST['surname'];
