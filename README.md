@@ -1,2 +1,0 @@
-This is a small application/website for students to upload their results of a test, and teachers can download those results.
-Also there will be a way to distribute Tasks for the students via upload of a teacher.
