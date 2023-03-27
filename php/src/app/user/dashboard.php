@@ -10,75 +10,117 @@ if($_SESSION["permission"] == "admin") {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard</title>
+        <link rel="icon" href="app/content/svg/school.svg">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
-    <body>
-        <h1>Dashboard</h1>
-        <p>Willkommen <?php echo $_SESSION["username"]; ?></p>
-        <hr>
-        <br>
-        <h3>Dateien hochladen:</h3>
-        <div class="upload">
-            <form action="upload.php" method="post" enctype="multipart/form-data">
-                <input type="file" name="file">
-                <button type="submit" name="submit">Upload</button>
-            </form>
-        </div>
-        <br>
-        <hr>
-        <br>
-        <h3>Aufgaben:</h3>
-        // Show the files from the users/Task folder and add a button to download them and if it is a .pdf file add a button to open it
-        <div>
-            <hr>
-            <?php
-                $files = scandir('../users/#Task');
-                for ($i = 2; $i < count($files); $i++) {
-                    echo '<a href="users/#Task/' . $files[$i] . '">' . $files[$i] . '</a>';
-                    echo '<form action="download.php" method="post">';
-                    echo '<input type="hidden" name="file" value="' . $files[$i] . '">';
-                    echo '<button type="submit" name="submit">Download</button>';
-                    echo '</form>';
-                    if(substr($files[$i], -4) == ".pdf") {
-                        echo '<form action="open.php" method="post">';
-                        echo '<input type="hidden" name="file" value="' . $files[$i] . '">';
-                        echo '<button type="submit" name="submit">Öffnen</button>';
-                        echo '</form>';
-                    }
-                    echo '<hr>';
-                }
-            ?>
-            <hr>
-        </div>
-        <br>
-        <hr>
-        <br>
-        <div>
-            <h3>Bereits hochgeladene Dateien:</h3>
-            <hr>
-            <?php
-                $files = scandir('../users/' . $_SESSION["username"]);
-                for ($i = 2; $i < count($files); $i++) {
-                    echo '<a href="users/' . $_SESSION["username"] . '/' . $files[$i] . '">' . $files[$i] . '</a>';
-                    echo '<form action="deletefile.php" method="post">';
-                    echo '<input type="hidden" name="file" value="' . $files[$i] . '">';
-                    echo '<button type="submit" name="submit">Löschen</button>';
-                    echo '</form>';
-                    echo '<hr>';
-                }
+    <body class="text-center">
+    
+        <div class="container gap-3">
+            <div class="row gap-3 p-2">
+                <div class="border rounded col">
+                    <h1>Dashboard</h1>
+                    <br>
+                    <h3>Willkommen <?php echo $_SESSION["username"];?>!</h3>
+                    <hr>
+                    <br>
+                    <button class="btn btn-primary mb-2" onclick="window.location.href='../../logout.php'">Logout</button>
+                    <br>
+                </div>
+            </div>
 
-                if(count($files) == 2) {
-                    echo 'Keine Dateien hochgeladen!';
-                }
-            ?>
-            <hr>
-        </div>
+            <div class="row gap-3 p-2">
+                <div class="border rounded col text-center">
+                    <br>
+                    <h2>Aufgaben</h2>
+                    <br>
+                </div>
+                <div class="border rounded col">
+                    <div>
+                        <h2>Arbeits Aufgaben</h2>
+                        <hr>
+                        <br>
+                        <?php
+                            $files = scandir('../users/#Task');
+                            for ($i = 2; $i < count($files); $i++) {
+                                echo '<a href="users/#Task/' . $files[$i] . '">' . $files[$i] . '</a>';
+                                if(substr($files[$i], -4) == ".pdf") {
+                                    echo '<form action="open.php" method="post">';
+                                    echo '<input type="hidden" name="file" value="' . $files[$i] . '">';
+                                    echo '<button class="btn btn-primary" type="submit" name="submit">Öffnen</button>';
+                                    echo '</form>';
+                                }
+                                if(substr($files[$i], -4) != ".pdf") {
+                                    echo '<form action="download.php" method="post">';
+                                    echo '<input type="hidden" name="file" value="' . $files[$i] . '">';
+                                    echo '<button class="btn btn-primary" type="submit" name="submit">Download</button>';
+                                    echo '</form>';
+                                }
+                                echo '<hr>';
+                            }
+                        ?>
+                        <hr>
+                    </div>
+                </div>
+                <div class="border rounded col">
+                    <h2>Abgabe</h2>
+                    <hr>
+                    <p>Sobald der Abgabe Button gedrückt wurde werden Sie abgemeldet!</p>
+                    <button class="btn btn-danger" onclick="window.location.href='turnin.php'">Abgeben</button>
+                </div>
+            </div>
 
-        <a href="../../logout.php">Logout</a>
+            <div class="row gap-3 p-2">
+                <div class="border rounded col text-center">
+                    <br>
+                    <h2>Abgabe</h2>
+                    <br>
+                </div>
+                <div class="border rounded col">
+                    <h2>Upload der Abgabe</h2>
+                    <hr>
+                    <br>
+                    <form class="form-control border-0" action="upload.php" method="post" enctype="multipart/form-data">
+                        <input class="form-control" type="file" id="formfile" name="file">
+                        <button class="btn btn-success mt-2" type="submit" name="submit">Hochladen</button>
+                    </form>
+                </div>
+                <div class="border rounded col">
+                    <h2>Hochgeladene Dateien</h2>
+                    <hr>
+                    <br>
+                    <?php
+                        $files = scandir('../users/' . $_SESSION["username"]);
+                        for ($i = 2; $i < count($files); $i++) {
+                            echo '<a href="users/' . $_SESSION["username"] . '/' . $files[$i] . '">' . $files[$i] . '</a>';
+                            echo '<form action="deletefile.php" method="post">';
+                            echo '<input type="hidden" name="file" value="' . $files[$i] . '">';
+                            echo '<button class="btn btn-danger" type="submit" name="submit">Löschen</button>';
+                            echo '</form>';
+                            echo '<hr>';
+                        }
+
+                        if(count($files) == 2) {
+                            echo 'Keine Dateien hochgeladen!';
+                        }
+                    ?>
+                </div>
+            </div>
+            
+            <div class="row gap-3 p-2">
+                <div class="border rounded col bg-light">
+                    <footer class="p-3">
+                        <span class="text-muted">Eltrex ©2023</span>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
 </html>
