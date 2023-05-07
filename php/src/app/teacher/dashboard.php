@@ -5,7 +5,7 @@ if(!isset($_SESSION["username"])) {
     exit();
 }
 
-if($_SESSION["permission"] != "admin") {
+if($_SESSION["permission"] == "student") {
     header("Location: ../../index.php");
     exit();
 }
@@ -43,7 +43,7 @@ if ($count > 0) {
     </head>
     <body class="text-center bg-secondary">
     
-        <div class="container gap-3 bg-light bg-gradient">
+        <div class="container gap-3 bg-light border rounded">
             <div class="row gap-3 p-2">
                 <div class="border rounded col">
                     <h1>Dashboard</h1>
@@ -179,7 +179,7 @@ if ($count > 0) {
             <div class="row gap-3 p-2">
                 <div class="border rounded col bg-light">
                     <footer class="p-3">
-                    <span class="text-muted">&copy; 2023 Fabian Ecken</span>
+                        <span class="text-muted">&copy; 2023 Fabian Ecken</span>
                     </footer>
                 </div>
             </div>

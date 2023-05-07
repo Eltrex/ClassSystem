@@ -52,15 +52,17 @@ CREATE TABLE `students` (
   `USERNAME` varchar(255) NOT NULL,
   `EMAIL` varchar(255) NOT NULL,
   `PASSWORD` varchar(255) NOT NULL,
-  `CLASS` varchar(255) NOT NULL
+  `CLASS` varchar(255) NOT NULL,
+  `CHANGE_PASSWORD` tinyint(1) NOT NULL DEFAULT 0,
+  `HANDED_IN` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`ID`, `FIRSTNAME`, `LASTNAME`, `USERNAME`, `EMAIL`, `PASSWORD`, `CLASS`) VALUES
-(2, 'Fabian', 'Ecken', 'Fabian.Ecken', 'Fabian.Ecken@schueler-bkvie.de', '$2y$10$N5bDSzIdCl4zkaJKPaGE6OuGVHLugQTzl3ao2aTfCNIHo/KkoL0My', 'HBI11');
+INSERT INTO `students` (`ID`, `FIRSTNAME`, `LASTNAME`, `USERNAME`, `EMAIL`, `PASSWORD`, `CLASS`, `CHANGE_PASSWORD`, `HANDED_IN`) VALUES
+(2, 'Fabian', 'Ecken', 'Fabian.Ecken', 'Fabian.Ecken@schueler-bkvie.de', '$2y$10$N5bDSzIdCl4zkaJKPaGE6OuGVHLugQTzl3ao2aTfCNIHo/KkoL0My', 'HBI11', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -74,15 +76,17 @@ CREATE TABLE `teachers` (
   `LASTNAME` varchar(255) NOT NULL,
   `USERNAME` varchar(255) NOT NULL,
   `EMAIL` varchar(255) NOT NULL,
-  `PASSWORD` varchar(255) NOT NULL
+  `PASSWORD` varchar(255) NOT NULL,
+  `CHANGE_PASSWORD` tinyint(1) NOT NULL DEFAULT 0,
+  `IS_ADMIN` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `teachers`
 --
 
-INSERT INTO `teachers` (`ID`, `FIRSTNAME`, `LASTNAME`, `USERNAME`, `EMAIL`, `PASSWORD`) VALUES
-(1, 'Martin', 'Hermanns', 'Martin.Hermanns', 'Hermanns@bkvie.de', '$2y$10$iyVNXDnhvI7SM1oG5uiA.OHrnJlLLo3kwFf9bfbvf89/TgLbleL8.');
+INSERT INTO `teachers` (`ID`, `FIRSTNAME`, `LASTNAME`, `USERNAME`, `EMAIL`, `PASSWORD`, `CHANGE_PASSWORD`, `IS_ADMIN`) VALUES
+(1, 'Martin', 'Hermanns', 'Martin.Hermanns', 'Hermanns@bkvie.de', '$2y$10$iyVNXDnhvI7SM1oG5uiA.OHrnJlLLo3kwFf9bfbvf89/TgLbleL8.', 1, 1);
 
 --
 -- Indexes for dumped tables

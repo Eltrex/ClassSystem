@@ -23,7 +23,7 @@ if(isset($_POST['add'])) {
     $count = $stmt->rowCount();
     $i = 1; // Counter for the while loop
 
-    $hash = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+    $hash = password_hash($password, PASSWORD_BCRYPT); // Hash the password
 
     if($count > 0) {
        $user = $stmt->fetch();
@@ -32,26 +32,17 @@ if(isset($_POST['add'])) {
            $i++;
            $username = $username . $i;
        }
-
-        $stmt = $pdo->prepare("INSERT INTO students (FIRSTNAME, LASTNAME, USERNAME, EMAIL, PASSWORD) VALUES (:name, :surname, :username, :email, :password)");
-        $stmt->bindParam(':name', $firstname);
-        $stmt->bindParam(':surname', $lastname);
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $hash);
-        $stmt->execute();
-        echo 'Der Benutzer wurde erfolgreich angelegt!';
-       
-    } else {
-        $stmt = $pdo->prepare("INSERT INTO students (FIRSTNAME, LASTNAME, USERNAME, EMAIL, PASSWORD) VALUES (:name, :surname, :username, :email, :password)");
-        $stmt->bindParam(':name', $firstname);
-        $stmt->bindParam(':surname', $lastname);
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $hash);
-        $stmt->execute();
-        echo 'Der Benutzer wurde erfolgreich angelegt!';
     }
+
+    $stmt = $pdo->prepare("INSERT INTO students (FIRSTNAME, LASTNAME, USERNAME, EMAIL, PASSWORD) VALUES (:name, :surname, :username, :email, :password, :change_password)");
+    $stmt->bindParam(':name', $firstname);
+    $stmt->bindParam(':surname', $lastname);
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $hash);
+    $stmt->bindParam(':change_password', 1);
+    $stmt->execute();
+    echo 'Der Benutzer wurde erfolgreich angelegt!';  
 
     if (!file_exists('users/' . $username)) {
         mkdir('users/' . $username, 0777, true);

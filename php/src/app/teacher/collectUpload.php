@@ -4,7 +4,7 @@ if(!isset($_SESSION["username"])) {
     header("Location: ../../index.php");
     exit();
 }
-if($_SESSION["permission"] != "admin") {
+if($_SESSION["permission"] == "student") {
     header("Location: ../../index.php");
     exit();
 }
@@ -13,7 +13,7 @@ $file_name = "Abgaben";
 $files = array();
 $files = scandir('../users');
 $zip = new ZipArchive();
-$zip->open($file_name . '.zip', ZipArchive::CREATE);
+$zip->open($file_name . '.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 for ($i = 2; $i < count($files); $i++) {
     $files2 = scandir('../users/' . $files[$i]);
     for ($j = 2; $j < count($files2); $j++) {
