@@ -21,12 +21,15 @@ if(isset($_POST["submit"])) {
     $fileActualExt = strtolower(end($fileExt));
 
     require_once '../../inc/db.php';
+
+    $Taskfolder = "#Aufgaben";
+
     $allowed = array("png", "zip", "docx", "pdf");
     if(in_array($fileActualExt, $allowed)) {
         if($fileError === 0) {
             if($fileSize < 1000000) {
                 $fileNameNew = $fileName;
-                $fileDestination = '../users/' . '#Task' . '/' . $fileNameNew;
+                $fileDestination = '../users/' . $Taskfolder . '/' . $fileNameNew;
                 move_uploaded_file($fileTmpName, $fileDestination);
                 header("Location: dashboard.php?upload=success");
             } else {

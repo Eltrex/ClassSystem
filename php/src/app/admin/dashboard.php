@@ -12,6 +12,8 @@ if($_SESSION["permission"] != "admin") {
 if(!isset($_POST["class"])) {
     $_POST["class"] = "all";
 }
+
+$Taskfolder = "#Aufgaben";
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -61,9 +63,9 @@ if(!isset($_POST["class"])) {
                     <hr>
                     <br>
                     <?php
-                    $files = scandir('../users/#Task');
+                    $files = scandir('../users/' . $Taskfolder);
                     for ($i = 2; $i < count($files); $i++) {
-                        echo '<a href="../users/#Task' . '/' . $files[$i] . '">' . $files[$i] . '</a>';
+                        echo '<a href="../users/' . $Taskfolder . '/' . $files[$i] . '">' . $files[$i] . '</a>';
                             echo '<form class="form-control border-0" action="deletefile.php" method="post">';
                             echo '<input type="hidden" name="file" id="file' . $i . '" value="' . $files[$i] . '">';
                             echo '<label for="file' . $i . '" class="form-label"></label><button class="btn btn-danger" type="submit" name="submit">Löschen</button></label>';

@@ -8,6 +8,8 @@ if($_SESSION["permission"] == "admin") {
     header("Location: ../../admin/dashboard.php");
     exit();
 }
+
+$Taskfolder = "#Aufgaben";
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -46,9 +48,9 @@ if($_SESSION["permission"] == "admin") {
                         <hr>
                         <br>
                         <?php
-                            $files = scandir('../users/#Task');
+                            $files = scandir('../users/' . $Taskfolder);
                             for ($i = 2; $i < count($files); $i++) {
-                                echo '<a href="users/#Task/' . $files[$i] . '">' . $files[$i] . '</a>';
+                                echo '<a href="users/' . $Taskfolder . '/' . $files[$i] . '">' . $files[$i] . '</a>';
                                 if(substr($files[$i], -4) == ".pdf") {
                                     echo '<form action="open.php" method="post">';
                                     echo '<input type="hidden" name="file" value="' . $files[$i] . '">';

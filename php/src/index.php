@@ -17,6 +17,9 @@ if(isset($_POST['login'])) {
         if(password_verify($password, $user['PASSWORD'])) {
             $_SESSION['username'] = $username;
             $_SESSION['permission'] = 'user';
+            if (!file_exists('app/users/' . $username)) {
+                mkdir('app/users/' . $username, 0777, true);
+            }
             header('Location: app/user/dashboard.php');
         } else {
             echo 'Das Passwort ist falsch!';
