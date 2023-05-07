@@ -79,4 +79,9 @@ if (!file_exists('../users/' . $Taskfolder)) {
     mkdir('../users/' . $Taskfolder, 0777, true);
 }
 
+require_once '../../inc/db.php';
+
+$stmt = $pdo->prepare("UPDATE students SET HANDED_IN = 0");
+$stmt->execute();
+
 header("Location: dashboard.php");
