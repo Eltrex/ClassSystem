@@ -5,7 +5,7 @@ if(!isset($_SESSION["username"])) {
     exit();
 }
 
-if($_SESSION["permission"] != "admin") {
+if($_SESSION["permission"] == "student") {
     header("Location: ../../index.php");
     exit();
 }
@@ -20,16 +20,16 @@ $splitUsername = array();
 $splitUsername = explode('.', $_SESSION["username"]);
 $change_password = 1;
 
-$stmt = $pdo->prepare("SELECT * FROM teachers WHERE CHANGE_PASSWORD = :change_password AND USERNAME = :username");
+$stmt = $pdo->prepare("SELECT * FROM teachers WHERE CHANGE_PASSWORD = :change_password AND FIRSTNAME = :firstname AND LASTNAME = :lastname");
 $stmt->bindParam(':change_password', $change_password);
-$stmt->bindParam(':username', $_SESSION["username"]);
+$stmt->bindParam(':firstname', $splitUsername[0]);
+$stmt->bindParam(':lastname', $splitUsername[1]);
 $stmt->execute();
 $count = $stmt->rowCount();
 
 if ($count > 0) {
     header("Location: changePassword.php");
 }
-$Taskfolder = "#Aufgaben";
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -43,7 +43,7 @@ $Taskfolder = "#Aufgaben";
     </head>
     <body class="text-center bg-secondary">
     
-        <div class="container gap-3 bg-light bg-gradient">
+        <div class="container gap-3 bg-light border rounded">
             <div class="row gap-3 p-2">
                 <div class="border rounded col">
                     <h1>Dashboard</h1>
@@ -79,9 +79,9 @@ $Taskfolder = "#Aufgaben";
                     <hr>
                     <br>
                     <?php
-                    $files = scandir('../users/' . $Taskfolder);
+                    $files = scandir('../users/#Task');
                     for ($i = 2; $i < count($files); $i++) {
-                        echo '<a href="../users/' . $Taskfolder . '/' . $files[$i] . '">' . $files[$i] . '</a>';
+                        echo '<a href="../users/#Task' . '/' . $files[$i] . '">' . $files[$i] . '</a>';
                             echo '<form class="form-control border-0" action="deletefile.php" method="post">';
                             echo '<input type="hidden" name="file" id="file' . $i . '" value="' . $files[$i] . '">';
                             echo '<label for="file' . $i . '" class="form-label"></label><button class="btn btn-danger" type="submit" name="submit">Löschen</button></label>';
@@ -179,7 +179,7 @@ $Taskfolder = "#Aufgaben";
             <div class="row gap-3 p-2">
                 <div class="border rounded col bg-light">
                     <footer class="p-3">
-                    <span class="text-muted">&copy; 2023 Fabian Ecken</span>
+                        <span class="text-muted">&copy; 2023 Fabian Ecken</span>
                     </footer>
                 </div>
             </div>

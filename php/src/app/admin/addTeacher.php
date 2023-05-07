@@ -23,7 +23,7 @@ if(isset($_POST['add'])) {
     $count = $stmt->rowCount();
     $i = 1; // Counter for the while loop
 
-    $hash = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+    $hash = password_hash($password, PASSWORD_BCRYPT); // Hash the password
 
     if($count > 0) {
        $user = $stmt->fetch();

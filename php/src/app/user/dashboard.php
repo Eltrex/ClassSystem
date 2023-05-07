@@ -4,9 +4,43 @@ if(!isset($_SESSION["username"])) {
     header("Location: ../../index.php");
     exit();
 }
-if($_SESSION["permission"] == "admin") {
-    header("Location: ../../admin/dashboard.php");
+
+if($_SESSION["permission"] == "teacher") {
+    header("Location: ../teacher/dashboard.php");
     exit();
+}
+if($_SESSION["permission"] == "admin") {
+    header("Location: ../admin/dashboard.php");
+    exit();
+}
+
+require_once '../../inc/db.php';
+
+$handed_in = 1;
+$stmt = $pdo->prepare("SELECT * FROM students WHERE HANDED_IN = :handed_in AND USERNAME = :username");
+$stmt->bindParam(':handed_in', $handed_in);
+$stmt->bindParam(':username', $_SESSION["username"]);
+$stmt->execute();
+$count = $stmt->rowCount();
+
+if ($count > 0) {
+    session_unset();
+    session_destroy();
+    header("Location: ../../index.php?already_handed_in=1");
+    exit();
+}
+
+
+$change_password = 1;
+
+$stmt = $pdo->prepare("SELECT * FROM students WHERE CHANGE_PASSWORD = :change_password AND USERNAME = :username");
+$stmt->bindParam(':change_password', $change_password);
+$stmt->bindParam(':username', $_SESSION["username"]);
+$stmt->execute();
+$count = $stmt->rowCount();
+
+if ($count > 0) {
+    header("Location: changePassword.php");
 }
 
 $Taskfolder = "#Aufgaben";
@@ -21,9 +55,9 @@ $Taskfolder = "#Aufgaben";
         <link rel="icon" href="app/content/svg/school.svg">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
-    <body class="text-center">
+    <body class="text-center bg-secondary">
     
-        <div class="container gap-3">
+        <div class="container gap-3 bg-light bg-gradient">
             <div class="row gap-3 p-2">
                 <div class="border rounded col">
                     <h1>Dashboard</h1>
@@ -117,7 +151,7 @@ $Taskfolder = "#Aufgaben";
             <div class="row gap-3 p-2">
                 <div class="border rounded col bg-light">
                     <footer class="p-3">
-                        <span class="text-muted">Eltrex ©2023</span>
+                    <span class="text-muted">&copy; 2023 Fabian Ecken</span>
                     </footer>
                 </div>
             </div>
