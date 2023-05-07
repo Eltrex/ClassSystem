@@ -42,6 +42,8 @@ $count = $stmt->rowCount();
 if ($count > 0) {
     header("Location: changePassword.php");
 }
+
+$Taskfolder = "#Aufgaben";
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -80,9 +82,9 @@ if ($count > 0) {
                         <hr>
                         <br>
                         <?php
-                            $files = scandir('../users/#Task');
+                            $files = scandir('../users/' . $Taskfolder);
                             for ($i = 2; $i < count($files); $i++) {
-                                echo '<a href="users/#Task/' . $files[$i] . '">' . $files[$i] . '</a>';
+                                echo '<a href="users/' . $Taskfolder . '/' . $files[$i] . '">' . $files[$i] . '</a>';
                                 if(substr($files[$i], -4) == ".pdf") {
                                     echo '<form action="open.php" method="post">';
                                     echo '<input type="hidden" name="file" value="' . $files[$i] . '">';
